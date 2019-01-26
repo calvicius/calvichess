@@ -13,16 +13,25 @@ Instrucciones calvichess
 2.- Inicializa una posición en el tablero - Initializes a position on the board 
 
 a)  Posición inicial de partida – Initial starting position
+
 > let fen_valida = ajedrez::setup_inicio(&mut board);
+
 > retorna true o false. Si es true configura el tablero con esta posición - returns true or false. If true, configure the board with this position 
 
 b) Una posición arbitraria - An arbitrary position 
+
 > let fen =  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 > let fen_valida = ajedrez::set_fen(fen, &mut board);
+
 > retorna true o false. Si es true configura el tablero con esta posición
+
 c) Comprueba si una FEN es válida - Check if a FEN is valid 
+
 > let fen =  "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 > let fen_valida = valida_fen(fen);
+
 > retorna true o false. Si es true la fen es válida; false en caso contrario
 
 
@@ -38,7 +47,9 @@ c) Comprueba si una FEN es válida - Check if a FEN is valid
 ajedrez::mueve_san(&mut board, movim);
 
 > let movim = "Kb2";
+
 > let result = ajedrez::mueve_san(&mut board, movim);
+
 > result es una tupla con cinco elementos:
 1. SAN  -> por ejemplo : result.0 = "Nf3"
 2. UCI  -> por ejemplo: result.1 = "g1f3"
@@ -53,6 +64,7 @@ ajedrez::mueve_san(&mut board, movim);
         PROMOTION_ROOK  => "R",
         PROMOTION_BISHOP => "B",
         PROMOTION_KNIGHT => "N",
+
 > si el movimiento es erronero la tupla retornada será ("None", "None", "None", "None", "None")
 
 
@@ -63,7 +75,9 @@ Perform a movement with algebraic coordinates. The format is (origin, destinatio
 ajedrez::mueve_algebra(&mut board, movim);
 
 > let movim = ("e2", "e4", "Q");		// ("e2", "e4", "");
+
 > let result = ajedrez::mueve_algebra(&mut board, movim);
+
 > el resultado es lo mismo que con la SAN
 
 
@@ -83,8 +97,11 @@ ajedrez::mueve_atras(&mut board);
 ajedrez::rey_en_jaque(&mut board);
 
 > let mut board = ajedrez::Tablero::init();
+
 > let fen = "2k5/8/3K4/2N2B2/8/8/8/8 b - - 0 1";
+
 > let fen_valida = ajedrez::set_fen(fen, &mut board);
+
 > let in_check = ajedrez::rey_en_jaque(&mut board);		//true
 
 
@@ -94,8 +111,11 @@ ajedrez::rey_en_jaque(&mut board);
 ajedrez::rey_ahogado(&mut board);
 
 > let mut board = ajedrez::Tablero::init();
+
 > let fen = "2k5/8/2NK4/2N5/8/8/8/8 b - - 0 1";
+
 > let fen_valida = ajedrez::set_fen(fen, &mut board);
+
 > let stalemated = ajedrez::rey_ahogado(&mut board);		// true
 
 
@@ -105,14 +125,18 @@ ajedrez::rey_ahogado(&mut board);
 ajedrez::rey_en_mate(&mut board);
 
 > let mut board = ajedrez::Tablero::init();
+
 > let fen = "2k5/8/2NK4/2N2B2/8/8/8/8 b - - 0 1";
+
 > let fen_valida = ajedrez::set_fen(fen, &mut board);
+
 > let mate_check = ajedrez::rey_en_mate(&mut board);		// true
 
 
 10.- Mostrar el tablero formato texto. Retorna una cadena de texto - Show the text format board. Returns a text string 
 
 > let _ascii = ajedrez::ascii(&mut board);		// to_string()
+
 > println!("\n{}", _ascii);
 
         +-----------------+
@@ -136,6 +160,7 @@ Array of the board. Useful to use in graphic representation. Returns a string ve
 ajedrez::tablero_grafico(&mut board);
 
 > let _grafico = ajedrez::tablero_grafico(&mut board);		//Vec<String>
+
 > println!("148 -->\n{:?}", _grafico);
 
 ["r", "n", ...., "K"]
@@ -147,8 +172,11 @@ ajedrez::tablero_grafico(&mut board);
 ajedrez::material_insuficiente(&mut board);	
 
 >   let mut board = ajedrez::Tablero::init();
+
 >    let fen = "2k5/8/3K4/8/8/8/8/b1B5 b - - 0 1";
+
 >    let fen_valida = ajedrez::set_fen(fen, &mut board);
+
 >    println!("\n197 --> {}", ajedrez::material_insuficiente(&mut board));		//true
 
 
@@ -160,35 +188,63 @@ Triple (threefold) repetition of position. Returns true or false. Just check the
 ajedrez::repeticion_triple(&mut board);
 
 >    let mut board = ajedrez::Tablero::init();
+
 >    let mut fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 >    let fen_valida = ajedrez::set_fen(fen, &mut board);
+
 >    // primer movimiento completo
+
 >    let mut movim = "Nf3";
+
 >    let mut resul = ajedrez::mueve_san(&mut board, movim);
+
 >    movim = "Nf6";
+
 >    resul = ajedrez::mueve_san(&mut board, movim);
+
 >    // segundo movimiento completo
+
 >    let mut movim = "Ng1";
+
 >    let mut resul = ajedrez::mueve_san(&mut board, movim);
+
 >    movim = "Ng8";
+
 >    resul = ajedrez::mueve_san(&mut board, movim);
+
 >    // tercer movimiento completo
+
 >    let mut movim = "Nf3";
+
 >    let mut resul = ajedrez::mueve_san(&mut board, movim);
+
 >    movim = "Nf6";
+
 >    resul = ajedrez::mueve_san(&mut board, movim);
+
 >    // cuarto movimiento completo
+
 >    let mut movim = "Ng1";
+
 >    let mut resul = ajedrez::mueve_san(&mut board, movim);
+
 >    movim = "Ng8";
+
 >    resul = ajedrez::mueve_san(&mut board, movim);
+
 >    // quinto movimiento completo
+
 >    let mut movim = "Nf3";
+
 >    let mut resul = ajedrez::mueve_san(&mut board, movim);
+
 >    movim = "Nf6";
+
 >    resul = ajedrez::mueve_san(&mut board, movim);
 >    
 >    let mut triple = ajedrez::repeticion_triple(&mut board);    // true
+
 >    println!("{}", triple);
 
 
@@ -199,23 +255,37 @@ ajedrez::repeticion_triple(&mut board);
 ajedrez::game_over(&mut board);
 
 >    let mut board = ajedrez::Tablero::init();
+
 >    let mut fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 >    let mut fen_valida = ajedrez::set_fen(fen, &mut board);
+
 >    let mut movim = "Nf3";
+
 >    let mut resul = ajedrez::mueve_san(&mut board, movim);
+
 >    let mut endgame = ajedrez::game_over(&mut board);
+
 >    println!("250 --> {}", endgame);        //false
 
 >    board = ajedrez::Tablero::init();
+
 >    fen = "rnbqkbnr/ppppp2p/8/5ppQ/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 0 3"; //mate pos
+
 >    fen_valida = ajedrez::set_fen(fen, &mut board);
+
 >    endgame = ajedrez::game_over(&mut board);
+
 >    println!("250 --> {}", endgame);        //true
 
 >    board = ajedrez::Tablero::init();
+
 >    fen = "4k3/4P3/4K3/8/8/8/8/8 b - - 0 78"; //ahogado /stalemate
+
 >    fen_valida = ajedrez::set_fen(fen, &mut board);
+
 >    endgame = ajedrez::game_over(&mut board);
+
 >    println!("250 --> {}", endgame);        //true
 
 
@@ -227,9 +297,13 @@ Obtains piece in the requested square. Returns "None" if the square does not exi
 ajedrez::get_pieza(&mut board, "c5");
 
 >   let mut board = ajedrez::Tablero::init();
+
 >    let mut fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 >    let mut fen_valida = ajedrez::set_fen(fen, &mut board);
+
 >    let pieza = ajedrez::get_pieza(&mut board, "c5");
+
 >    println!("269 --> {}", pieza);  // "None, "-", "Q"
 
 
@@ -239,13 +313,21 @@ ajedrez::get_pieza(&mut board, "c5");
 ajedrez::pgn(&mut board);
 
 >    let mut board = ajedrez::Tablero::init();
+
 >    let mut fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 >    let mut fen_valida = ajedrez::set_fen(fen, &mut board);
+
 >    let mut movim = ajedrez::mueve_san(&mut board, "e4");
+
 >    movim = ajedrez::mueve_san(&mut board, "e5");
+
 >    movim = ajedrez::mueve_san(&mut board, "Nf3");
+
 >    movim = ajedrez::mueve_san(&mut board, "Nc6");
+
 >    movim = ajedrez::mueve_san(&mut board, "Bb5");
+
 >    movim = ajedrez::mueve_san(&mut board, "a6");
     
 >    let pgn_txt = ajedrez::pgn(&mut board);
@@ -264,9 +346,13 @@ Returns a vector of legal moves from the current position in UCI format.
 ajedrez::jugadas_posibles(&mut board);
 
 >  let mut board = ajedrez::Tablero::init();
+
 >    let mut fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+
 >    let mut fen_valida = ajedrez::set_fen(fen, &mut board);
+
 >    let mut jug_posibles = ajedrez::jugadas_posibles(&mut board);
+
 >    println!("293 --> {:?}", jug_posibles);
 
 ["e2e4", ..... , "h2h4"]
@@ -280,7 +366,9 @@ Reset the board to the initial starting position.
 ajedrez::reset();
 
 >    let mut new_board = ajedrez::reset();
+
 >    let new_fen = ajedrez::get_fen(&mut new_board);
+
 >    println!("297 --> FEN: {}", new_fen);
 
 
