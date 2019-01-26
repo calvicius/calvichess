@@ -1,7 +1,7 @@
 # calvichess
 A Rust chess library for chess move generation/validation, piece placement/movement, and check/checkmate/draw detection
 
-Instrucciones rsAjedrez
+Instrucciones calvichess
 
 
 1.- Crea un tablero vacio - Creates an empty board 
