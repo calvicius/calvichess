@@ -116,16 +116,16 @@ ajedrez::rey_en_mate(&mut board);
 > println!("\n{}", _ascii);
 
           +-----------------+
-//      8 | r   n  b   q  k   b   n   r  |
-//      7 | p  p  p   p  -   p   p   p |
-//      6 | -  -  -   -  -  -   -   -. |
-//      5 | -  -  -   -  p  -   -   -  |
-//      4 | -  -  -   -  P  P  -   -  |
-//      3 | -  -  -   -  -   -  -   -  |
-//      2 | P  P  P  P  -   -  P  P  |
-//      1 | R  N  B  Q  K  B  N  R |
+//      8 | r n b q k b n r |
+//      7 | p p p p - p p p |
+//      6 | - - - - - - - -.|
+//      5 | - - - - p - - - |
+//      4 | - - - - P P - - |
+//      3 | - - - - - - - - |
+//      2 | P P P P - - P P |
+//      1 | R N B Q K B N R |
 //        +-----------------+
-             a   b   c   d   e   f   g  h
+            a b c d e f g h
 
 
 
