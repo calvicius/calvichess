@@ -13,7 +13,7 @@ use std::num::ParseIntError;
 use std::collections::HashMap;
 
 
-mod defs;
+pub mod defs;
 
 
 
@@ -64,14 +64,14 @@ pub struct Historia{
 // ======================= la estructura del tablero =============
 #[derive(Clone)]
 pub struct Tablero {
-    board_array: [i16; 128],             // el tablero 0x88
+    pub board_array: [i16; 128],             // el tablero 0x88
     to_move: i16,                        // el turno, 1 = blanco, -1 = negro
     en_passant: i16,                     // captura al paso
     white_castle: i16,                  // enroque blanco ¿ambos, solo corto/largo, ninguno?
     black_castle: i16,                  // enroque negro - idem
     moves_fifty: i16,                    // regla 50 jugadas (penultimo campo FEN)
     moves_full: i16,                      // num. jugadas de la partida (ultimo campo FEN)
-    history: Vec<Historia>                 // histórico de movimientos
+    pub history: Vec<Historia>                 // histórico de movimientos
 }
 
 impl Tablero {
@@ -1798,14 +1798,14 @@ fn crea_san (board: Tablero, movim: Movim) -> String{
     match pieza {
         defs::W_KING =>
             {
-                if movim.move_type == defs::SHORT_CASTLE { return "0-0".to_string(); }
-                if movim.move_type == defs::LONG_CASTLE { return "0-0-0".to_string(); }
+                if movim.move_type == defs::SHORT_CASTLE { return "O-O".to_string(); }
+                if movim.move_type == defs::LONG_CASTLE { return "O-O-O".to_string(); }
                 _san.push_str("K");
             },
         defs::B_KING =>
             {
-                if movim.move_type == defs::SHORT_CASTLE { return "0-0".to_string(); }
-                if movim.move_type == defs::LONG_CASTLE { return "0-0-0".to_string(); }
+                if movim.move_type == defs::SHORT_CASTLE { return "O-O".to_string(); }
+                if movim.move_type == defs::LONG_CASTLE { return "O-O-O".to_string(); }
                 _san.push_str("K");
             },
         defs::W_QUEEN   => _san.push_str("Q"),
@@ -2137,9 +2137,8 @@ fn move_from_san(board: &mut Tablero, san: &str) -> Movim{
             if (_pieza.abs() == 5 || _pieza.abs() == 1) && desplazamiento[j] != 0 {
                 let index: usize = defs::SQUARE_NAMES.iter().position(|&r| r == valor).unwrap();
                 orig = desplazamiento[j] + defs::CASILLAS_VALOR[index].indice;
-                //println!("2014 {}", orig);
+                
                 if orig & 0x88 == 0 {
-                    //println!("2016 {} -- {}", orig, board.board_array[orig as usize]);
                     if board.board_array[orig as usize] == 0 { continue; }
                 }
                 else { continue; }
@@ -2451,7 +2450,10 @@ fn crea_algebra(board: &mut Tablero, (desde, hasta, promo): (&str, &str, &str)) 
     
     for legal in legales{
         if legal.from_index == idx_desde as usize && legal.to_index == idx_hasta as usize {
-            //if move_type
+            //modif on 04-07-2019
+            if legal.piece_moving.abs() != defs::W_PAWN && coronacion != 256 {
+                coronacion = 256;
+            }
             if coronacion == 256 {
                 if legal.move_type < defs::PROMOTION_QUEEN{
                     candidatas.push(legal);
@@ -2955,7 +2957,6 @@ pub fn pgn(board: &mut Tablero) -> String {
         pgn_s.push_str(" ");
     }
     pgn_s.push_str("\n");
-    println!("2926 {}", pgn_s);
     
     pgn_s
 }
